@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd ./server && yarn start\" \"cd ./client && yarn dev\"",
+    "tscheck:client": "tsc -p ./client/tsconfig.json",
+    "tscheck:server": "tsc -p ./server/tsconfig.json",
+    "test": "yarn tscheck:client && yarn tscheck:server"
+  }
+}
