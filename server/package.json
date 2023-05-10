@@ -19,6 +19,7 @@
     "typescript": "^5.0.4"
   },
   "scripts": {
+    "prod:build": "npm install && tsc",
     "build": "yarn install && tsc",
     "start:prod": "yarn db:migrate && node build/index.js",
     "start": "nodemon ./src/index.ts",

@@ -11,6 +11,14 @@ const UsernameField: React.FC<UsernameProps> = ({
   setUsername,
   setNameComplete,
 }) => {
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    if (event.key === "Enter") {
+      setNameComplete(true);
+    }
+  };
+
   return (
     <Box gridArea="sendMessageBox">
       <Grid templateRows="1fr auto" gap={2}>
@@ -19,6 +27,7 @@ const UsernameField: React.FC<UsernameProps> = ({
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
+            onKeyDown={handleKeyDown}
           />
         </FormControl>
         <Button onClick={() => setNameComplete(true)}>Set Username</Button>
