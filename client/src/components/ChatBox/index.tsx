@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { Box, Button, FormControl, Grid, Input, Text } from "@chakra-ui/react";
 
 // const socket = io("http://localhost:3000");
-const socket = io("3.236.195.45");
+const socket = io("35.172.231.110:3000");
 
 type Message = string;
 type ChatBoxProps = {
