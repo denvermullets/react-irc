@@ -15,6 +15,7 @@ const io = new Server(server, {
   },
 });
 
+console.log("db", process.env.DATABASE_URL || "not_here");
 // storing a list of users w/their channel to keep track of disconnects and number of users in a room
 // TODO: close out a room when no users are present as rooms will persist until told to close
 const users: { [socketId: string]: { username: string; channel: string } } = {};
