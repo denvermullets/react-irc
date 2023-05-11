@@ -25,31 +25,33 @@ const waitingRoom: {
 } = {};
 
 const createUserRecord = async (name: string, assignment_id: string) => {
-  const newRecord = await db("users")
-    .insert({
-      name,
-      assignment_id,
-      created_at: new Date().toISOString(),
-    })
-    .returning("*")
-    .catch((err: Error) => {
-      throw err;
-    });
+  try {
+    const newRecord = await db("users")
+      .insert({
+        name,
+        assignment_id,
+        created_at: new Date().toISOString(),
+      })
+      .returning("*")
+      .catch((err: Error) => {
+        throw err;
+      });
 
-  return newRecord;
+    console.log(newRecord);
+    const jsonRecord = newRecord.map((record) => record.toJSON());
+    console.log(jsonRecord);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 io.on("connection", (socket) => {
   console.log("a user connected");
 
-  socket.on("join", async (channel: string, username: string) => {
+  socket.on("join", (channel: string, username: string) => {
     console.log("waitingRoom: ", waitingRoom);
-    try {
-      const newUser = await createUserRecord(username, channel);
-      console.log(newUser);
-    } catch (err) {
-      console.error(err);
-    }
+    createUserRecord(username, channel);
+
     // we're going to start with just grouping 2 people together in a room
     // assigning roles or figuring out who is what role can come later
     const usersWaiting = Object.keys(waitingRoom).length;
