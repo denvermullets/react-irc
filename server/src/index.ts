@@ -1,6 +1,7 @@
 import express from "express";
 import { Server } from "socket.io";
 import * as http from "http";
+import db from "./database/db";
 
 const PORT = 3000;
 const app = express();
@@ -23,11 +24,28 @@ const waitingRoom: {
   [socketId: string]: { username: string; channel: string };
 } = {};
 
+const createUserRecord = async (name: string, assignment_id: string) => {
+  const newRecord = await db("users")
+    .insert({
+      name,
+      assignment_id,
+      created_at: new Date().toISOString(),
+    })
+    .returning("*")
+    .catch((err: Error) => {
+      throw err;
+    });
+
+  return newRecord;
+};
+
 io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on("join", (channel: string, username: string) => {
     console.log("waitingRoom: ", waitingRoom);
+    const newUser = createUserRecord(username, channel);
+    console.log(newUser);
     // we're going to start with just grouping 2 people together in a room
     // assigning roles or figuring out who is what role can come later
     const usersWaiting = Object.keys(waitingRoom).length;
