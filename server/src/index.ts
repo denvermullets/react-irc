@@ -57,7 +57,7 @@ io.on("connection", (socket) => {
     const usersWaiting = Object.keys(waitingRoom).length;
     console.log("usersWaiting: ", usersWaiting);
 
-    if (usersWaiting > 4) {
+    if (usersWaiting > 100) {
       // Get the first waiting user and move object to user list
       const waitingSocketId = Object.keys(waitingRoom)[0];
       const waitingUser = waitingRoom[waitingSocketId];

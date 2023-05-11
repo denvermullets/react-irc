@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import { Box, Button, FormControl, Grid, Input, Text } from "@chakra-ui/react";
 
@@ -20,15 +20,16 @@ const ChatBox: React.FC<ChatBoxProps> = ({ username }) => {
   const [currentMessage, setCurrentMessage] = useState<Message>("");
   const [messages, setMessages] = useState<MessageFormat[]>([]);
   const [channel, setChannel] = useState<string>("waiting-room");
-
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [shouldScroll, setShouldScroll] = useState(true);
   // const search = window.location.search;
   // const channel = channelParams.get('channel');
 
   useEffect(() => {
     // loads messages
     socket.on("message", (message: MessageFormat) => {
-      // const messageObject = getMessageFormat(message);
       setMessages([...messages, message]);
+      setShouldScroll(true);
     });
   }, [messages]);
 
@@ -44,6 +45,15 @@ const ChatBox: React.FC<ChatBoxProps> = ({ username }) => {
       setChannel(newChannel);
     });
   }, [channel]);
+
+  useEffect(() => {
+    // Scroll to the bottom when shouldScroll is true
+    if (shouldScroll && messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+      setShouldScroll(false);
+    }
+  }, [messages, shouldScroll]);
 
   const handleSendMessage = () => {
     // sends message
@@ -78,6 +88,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ username }) => {
           width="500px"
           height="calc(50vh)"
           style={{ overflowY: "auto" }}
+          ref={messagesContainerRef}
         >
           <Box display="flex" flexDirection="column">
             {messages &&
