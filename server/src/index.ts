@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
 
   socket.on("join", (channel: string, username: string) => {
     console.log("waitingRoom: ", waitingRoom);
-    createUserRecord(username, channel);
+    // createUserRecord(username, channel);
 
     // we're going to start with just grouping 2 people together in a room
     // assigning roles or figuring out who is what role can come later
