@@ -10,9 +10,9 @@ const io = new Server(server, {
   cors: {
     // origin: "http://127.0.0.1:5173",
     // depends on what your host url is
-    // origin: "http://localhost:5173",
-    origin:
-      "http://react-irc-bucket-3f6bc42.s3-website-us-east-1.amazonaws.com",
+    origin: "http://localhost:5173",
+    // origin:
+    //   "http://react-irc-bucket-3f6bc42.s3-website-us-east-1.amazonaws.com",
   },
 });
 
